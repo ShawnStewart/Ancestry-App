@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 
 const User = require("../../models/User");
 const validateRegistration = require("../../validation/validateRegistration");
+const validateLogin = require("../../validation/validateLogin");
 
 // @route   POST api/users/register
 // @desc    Registers a new user
@@ -33,12 +34,46 @@ router.post("/register", (req, res) => {
               newUser.password = hash;
               newUser
                 .save()
-                .then(user => res.json(user))
+                .then(user => res.status(201).json(user))
                 .catch(err => console.log(err));
             }
           });
         });
       }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+// @route   POST api/users/login
+// @desc    Log in to user account
+// @access  Public
+router.post("/login", (req, res) => {
+  // Validation check
+  const { errors, isValid } = validateLogin(req.body);
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  const { username, password } = req.body;
+
+  User.findOne({ username }, "+password")
+    .then(user => {
+      if (!user) {
+        errors.username = "Invalid login";
+        res.status(400).json(errors);
+      }
+
+      // Check password
+      bcrypt.compare(password, user.password).then(isMatch => {
+        if (isMatch) {
+          return res.json({ success: true });
+        } else {
+          errors.username = "Invalid login";
+          return res.status(400).json(errors);
+        }
+      });
     })
     .catch(err => {
       console.log(err);
