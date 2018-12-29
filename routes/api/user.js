@@ -7,7 +7,7 @@ const validateRegistration = require("../../validation/validateRegistration");
 // @route   POST api/users/register
 // @desc    Registers a new user
 // @access  Public
-router.get("/register", (req, res) => {
+router.post("/register", (req, res) => {
   // Validation check
   const { errors, isValid } = validateRegistration(req.body);
   if (!isValid) {
