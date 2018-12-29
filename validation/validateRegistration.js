@@ -30,5 +30,12 @@ module.exports = function validateRegisterInput(data) {
     errors.confirmation = "Passwords must match";
   }
 
+  // email
+  if (Validator.isEmpty(data.email)) {
+    errors.email = "Please enter an email";
+  } else if (!Validator.isEmail(data.email)) {
+    errors.email = "Email is invalid";
+  }
+
   return { errors, isValid: checkEmpty(errors) };
 };
