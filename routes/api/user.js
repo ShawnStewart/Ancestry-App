@@ -44,3 +44,5 @@ router.post("/register", (req, res) => {
       console.log(err);
     });
 });
+
+module.exports = router;
