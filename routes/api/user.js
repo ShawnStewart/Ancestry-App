@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const User = require("../../models/User");
 const validateRegistration = require("../../validation/validateRegistration");
@@ -68,7 +69,15 @@ router.post("/login", (req, res) => {
       // Check password
       bcrypt.compare(password, user.password).then(isMatch => {
         if (isMatch) {
-          return res.json({ success: true });
+          const payload = { id: user.id, username: user.username };
+          jwt.sign(
+            payload,
+            process.env.JWT_SECRET,
+            { expiresIn: "1hr" },
+            (err, token) => {
+              return res.json({ success: true, token: `Bearer ${token}` });
+            }
+          );
         } else {
           errors.username = "Invalid login";
           return res.status(400).json(errors);
