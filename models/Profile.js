@@ -20,7 +20,36 @@ const ProfileSchema = new Schema({
       type: String,
       required: true
     }
-  }
+  },
+  birthday: Date,
+  gender: {
+    type: String,
+    required: true
+  },
+  nationality: String,
+  ethnicity: String,
+  metric: {
+    type: Boolean,
+    default: false
+  },
+  height: Number,
+  weight: Number,
+  parents: {
+    mother: {
+      type: ObjectId,
+      ref: profiles
+    },
+    father: {
+      type: ObjectId,
+      ref: profiles
+    }
+  },
+  children: [
+    {
+      type: ObjectId,
+      ref: profiles
+    }
+  ]
 });
 
 module.exports = Profile = mongoose.model("profiles", ProfileSchema);
