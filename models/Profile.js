@@ -34,6 +34,7 @@ const ProfileSchema = new Schema({
   },
   height: Number,
   weight: Number,
+  bio: String,
   parents: {
     mother: {
       type: ObjectId,
