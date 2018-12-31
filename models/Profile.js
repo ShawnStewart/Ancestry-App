@@ -38,17 +38,17 @@ const ProfileSchema = new Schema({
   parents: {
     mother: {
       type: ObjectId,
-      ref: profiles
+      ref: "profiles"
     },
     father: {
       type: ObjectId,
-      ref: profiles
+      ref: "profiles"
     }
   },
   children: [
     {
       type: ObjectId,
-      ref: profiles
+      ref: "profiles"
     }
   ]
 });
