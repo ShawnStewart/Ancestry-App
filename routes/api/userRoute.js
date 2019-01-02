@@ -6,6 +6,16 @@ const User = require("../../models/User");
 const validateRegistration = require("../../validation/validateRegistration");
 const validateLogin = require("../../validation/validateLogin");
 
+// @route   GET api/users/current
+// @desc    Get the user based on the token
+// @access  Public
+router.get("/current", (req, res) => {
+  const { token } = req.body;
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    return res.json(decoded);
+  });
+});
+
 // @route   POST api/users/register
 // @desc    Registers a new user
 // @access  Public
