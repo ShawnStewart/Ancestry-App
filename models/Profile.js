@@ -3,9 +3,10 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 const ProfileSchema = new Schema({
-  user: {
+  owner: {
     type: ObjectId,
-    ref: "users"
+    ref: "users",
+    required: true
   },
   name: {
     first: {
@@ -19,7 +20,8 @@ const ProfileSchema = new Schema({
     last: {
       type: String,
       required: true
-    }
+    },
+    nickname: String
   },
   birthday: Date,
   gender: {
